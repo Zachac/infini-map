@@ -1,4 +1,4 @@
-package org.ex.infinite;
+package org.ex.infinite.map;
 
 import java.util.Arrays;
 
@@ -13,7 +13,8 @@ public class Map {
 	private static final float MAP_SCALE = 10f;
 	
 	public static String getMap(int x, int y) {
-
+		x -= MAP_RADIUS + 1;
+		y -= MAP_RADIUS;
 		
 		char[] map = new char[MAP_HEIGHT * MAP_WIDTH];
 
@@ -25,7 +26,7 @@ public class Map {
 			
 			for (int j = 0; j < MAP_LENGTH; j++) {
 				int position = row_offset + j * 2 + 1;
-				map[position] = getMapCell(i + x, j + y);
+				map[position] = getBiome(i + x, j + y).icon;
 				map[position + 1] = ' ';
 			}
 
@@ -47,17 +48,19 @@ public class Map {
 		map[offset + MAP_WIDTH - 1] = '\n';
 	}
 	
-	private static char getMapCell(float x, float y) {
+	public static Biome getBiome(float x, float y) {
 		
 		x *= MAP_SCALE;
 		y *= MAP_SCALE;
 		
 		float value = NOISE.GetPerlin(x, y);
-		
-		if (value > 0) {
-			return 'x';
+
+		if (value > 0.1) {
+			return Biome.Plains;
+		} else if (value > 0) {
+				return Biome.Beach;
 		} else {
-			return ' ';
+			return Biome.Ocean;
 		}
 	}
 }
