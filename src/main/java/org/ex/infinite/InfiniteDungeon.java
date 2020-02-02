@@ -13,7 +13,7 @@ import org.ex.infinite.map.location.PositionalLocation;
 public class InfiniteDungeon {
 
 	public static void main(String[] args) {
-		Location l = new PositionalLocation(0, 1);
+		Location l = PositionalLocation.getLocation(0, 1);
 		
 		display(l);
 		
@@ -42,7 +42,7 @@ public class InfiniteDungeon {
 	private static void display(Location l) {
 		if (l instanceof PositionalLocation) {
 			PositionalLocation positionalLocation = (PositionalLocation) l;
-			System.out.println(Map.getMap(positionalLocation.getX(), positionalLocation.getY()));
+			System.out.println(Map.getMap(positionalLocation.getPosition()));
 		}
 		
 		System.out.println("The " + l.getBiome().name());
