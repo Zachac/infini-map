@@ -1,8 +1,16 @@
 package org.ex.infinite.map;
 
+import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Queue;
+import java.util.Set;
 
 import org.ex.external.fast.FastNoise;
+import org.ex.infinite.map.exit.Exit;
+import org.ex.infinite.map.location.Location;
+import org.ex.infinite.map.location.PositionalLocation;
 import org.ex.infinite.randomizer.Seed;
 
 public class Map {
@@ -17,15 +25,68 @@ public class Map {
 		MAP_LINE[MAP_LINE.length - 1] = '\n';
 	}
 	
-	public static String getMap(Position p) {
+	public static String getMap(Location location) {
+		if (! (location instanceof PositionalLocation)) {
+			return "map generation is not supported here";
+		}
+		
 		Biome[][] values = new Biome[MAP_LENGTH][MAP_LENGTH];
-		for (int i = 0; i < MAP_LENGTH; i++) {
-			for (int j = 0; j < MAP_LENGTH; j++) {
-				values[i][j] = getBiome(i - MAP_RADIUS + p.x , p.y - MAP_RADIUS + j);
+		
+		Position p = ((PositionalLocation) location).getPosition();
+		Set<Location> visited = new HashSet<>();
+		Queue<VisitedNode> seen = new ArrayDeque<>();
+		seen.add(new VisitedNode(0, location));
+		
+		VisitedNode currentNode;
+		while ((currentNode = seen.poll()) != null) {
+			if (! visited.add(currentNode.location)) {
+				continue;
+			}
+			
+			boolean visibleSurroundings = currentNode.depth <= currentNode.location.getViewThreshold();
+			
+			if (visibleSurroundings) {
+				addAll(currentNode.location.getExits(), seen, currentNode.depth);
+			}
+			
+			if (currentNode.location instanceof PositionalLocation) {
+				PositionalLocation currentLocation = (PositionalLocation) currentNode.location;
+				Position currentPosition = currentLocation.getPosition();
+				int x = currentPosition.x - p.x + MAP_RADIUS;
+				int y = currentPosition.y - p.y + MAP_RADIUS;
+				
+				if (x >= 0 && y >= 0 && x < MAP_LENGTH && y < MAP_LENGTH) {
+					values[x][y] = currentNode.location.getBiome();
+				}
+
+				if (visibleSurroundings) {
+					addAll(currentLocation.getUnnavigableExits(), seen, currentNode.depth);
+				}
 			}
 		}
 		
 		return drawMap(values);
+	}
+
+	private static void addAll(Collection<Exit> exits, Queue<VisitedNode> seen, int currentDepth) {
+		int nextDepth = currentDepth + 1;
+		
+		for (Exit e : exits) {
+			if (! e.isVisible()) {
+				continue;
+			}
+			
+			seen.add(new VisitedNode(nextDepth,  e.getLocation()));
+		}
+	}
+	
+	private static class VisitedNode {
+		public final int depth;
+		public final Location location;
+		public VisitedNode(int depth, Location location) {
+			this.depth = depth;
+			this.location = location;
+		}
 	}
 
 	private static String drawMap(Biome[][] values) {
@@ -70,9 +131,13 @@ public class Map {
 		if (value > 0.1) {
 			return Biome.Plains;
 		} else if (value > 0) {
-				return Biome.Beach;
+			return Biome.Beach;
 		} else {
 			return Biome.Ocean;
 		}
+	}
+
+	public static Biome getBiome(Position position) {
+		return getBiome(position.x, position.y);
 	}
 }

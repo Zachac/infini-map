@@ -14,4 +14,9 @@ public enum Direction {
 		this.x = x;
 		this.y = y;
 	}
+	
+	private Direction(Direction a, Direction b) {
+		this.x = a.x + b.x;
+		this.y = a.y + b.y;
+	}
 }

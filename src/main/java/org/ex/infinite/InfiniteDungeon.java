@@ -40,11 +40,7 @@ public class InfiniteDungeon {
 	}
 
 	private static void display(Location l) {
-		if (l instanceof PositionalLocation) {
-			PositionalLocation positionalLocation = (PositionalLocation) l;
-			System.out.println(Map.getMap(positionalLocation.getPosition()));
-		}
-		
+		System.out.println(Map.getMap(l));
 		System.out.println("The " + l.getBiome().name());
 		l.getFeatures().stream().filter(Smell.class::isInstance).forEach(f -> {
 			System.out.println(((Smell) f).getDescription());

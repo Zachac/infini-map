@@ -2,9 +2,9 @@ package org.ex.infinite.map;
 
 public enum Biome {
 	
-	Plains('x', 3, true), 
-	Ocean('`', 5, false), 
-	Beach('~', 3, true);
+	Plains('x', 2, true), 
+	Ocean('-', 5, false), 
+	Beach('~', 2, true);
 
 	public final char icon;
 	public final int viewThreshold;
