@@ -3,10 +3,11 @@ package org.ex.infinite.map;
 import java.util.Arrays;
 
 import org.ex.external.fast.FastNoise;
+import org.ex.infinite.randomizer.Seed;
 
 public class Map {
-	private static final FastNoise NOISE = new FastNoise();
-	private static final int MAP_RADIUS = 5;
+	private static final FastNoise NOISE = new FastNoise((int) Seed.value);
+	private static final int MAP_RADIUS = 3;
 	private static final int MAP_LENGTH = MAP_RADIUS * 2 + 1;
 	private static final int MAP_HEIGHT = (MAP_LENGTH + 2); 
 	private static final int MAP_WIDTH = (MAP_LENGTH * 2 + 2);

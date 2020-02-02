@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import org.ex.infinite.features.smells.Smell;
 import org.ex.infinite.map.Map;
 import org.ex.infinite.map.exit.Exit;
 import org.ex.infinite.map.location.Location;
@@ -12,7 +13,7 @@ import org.ex.infinite.map.location.PositionalLocation;
 public class InfiniteDungeon {
 
 	public static void main(String[] args) {
-		Location l = new PositionalLocation(0, 0);
+		Location l = new PositionalLocation(0, 1);
 		
 		display(l);
 		
@@ -44,9 +45,14 @@ public class InfiniteDungeon {
 			System.out.println(Map.getMap(positionalLocation.getX(), positionalLocation.getY()));
 		}
 		
-		System.out.println("Type: " + l.getBiome().name());
+		System.out.println("The " + l.getBiome().name());
+		l.getFeatures().stream().filter(Smell.class::isInstance).forEach(f -> {
+			System.out.println(((Smell) f).getDescription());
+		});
+		
 		System.out.println("View threshold: " + l.getViewThreshold());
 		System.out.println("Exits: " + l.getExits().stream().filter(e -> e.isVisible()).collect(Collectors.toList()));
 		System.out.println("*Hidden exits: " + l.getExits().stream().filter(e -> ! e.isVisible()).collect(Collectors.toList()));
+		System.out.println("*Features: " + l.getFeatures());
 	}
 }

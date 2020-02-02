@@ -1,5 +1,6 @@
 package org.ex.infinite.map.location;
 
+import org.ex.infinite.features.BiomeFeatures;
 import org.ex.infinite.map.Direction;
 import org.ex.infinite.map.Map;
 import org.ex.infinite.map.exit.PositionalExit;
@@ -18,9 +19,11 @@ public final class PositionalLocation extends AbstractLocation {
 		
 		for (Direction d : Direction.values()) {
 			if (Map.getBiome(x + d.x, y + d.y).navigable) {
-				addExit(new PositionalExit(d.name(), x + d.x, y + d.y));
+				exits.add(new PositionalExit(d.name(), x + d.x, y + d.y));
 			}
 		}
+		
+		features.addAll(BiomeFeatures.getFeatures(getBiome(), x, y));
 	}
 
 	public int getX() {
