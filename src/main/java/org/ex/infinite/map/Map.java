@@ -46,7 +46,7 @@ public class Map {
 			boolean visibleSurroundings = currentNode.depth <= currentNode.location.getViewThreshold();
 			
 			if (visibleSurroundings) {
-				addAll(currentNode.location.getExits(), seen, currentNode.depth);
+				addAll(currentNode.location.getExits(), seen, visited, currentNode.depth);
 			}
 			
 			if (currentNode.location instanceof PositionalLocation) {
@@ -60,7 +60,7 @@ public class Map {
 				}
 
 				if (visibleSurroundings) {
-					addAll(currentLocation.getUnnavigableExits(), seen, currentNode.depth);
+					addAll(currentLocation.getUnnavigableExits(), seen, visited, currentNode.depth);
 				}
 			}
 		}
@@ -68,7 +68,7 @@ public class Map {
 		return drawMap(values);
 	}
 
-	private static void addAll(Collection<Exit> exits, Queue<VisitedNode> seen, int currentDepth) {
+	private static void addAll(Collection<Exit> exits, Queue<VisitedNode> seen, Set<Location> visited, int currentDepth) {
 		int nextDepth = currentDepth + 1;
 		
 		for (Exit e : exits) {
@@ -76,7 +76,10 @@ public class Map {
 				continue;
 			}
 			
-			seen.add(new VisitedNode(nextDepth,  e.getLocation()));
+			Location l = e.getLocation();
+			if (!visited.contains(l)) {
+				seen.add(new VisitedNode(nextDepth,  e.getLocation()));
+			}
 		}
 	}
 	
@@ -92,7 +95,7 @@ public class Map {
 	private static String drawMap(Biome[][] values) {
 		StringBuilder result = new StringBuilder(MAP_HEIGHT * MAP_WIDTH);
 		result.append(MAP_LINE);
-		
+
 		for (Biome[] arr : values) {
 			result.append('|');
 			
