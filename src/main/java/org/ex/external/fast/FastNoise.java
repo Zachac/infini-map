@@ -57,11 +57,12 @@ public class FastNoise {
 	private float m_gradientPerturbAmp = (float) (1.0 / 0.45);
 
 	public FastNoise() {
-		this(1337);
+		this(1337, 0.01f);
 	}
-
-	public FastNoise(int seed) {
+	
+	public FastNoise(int seed, float frequency) {
 		m_seed = seed;
+		m_frequency = frequency;
 		CalculateFractalBounding();
 	}
 
