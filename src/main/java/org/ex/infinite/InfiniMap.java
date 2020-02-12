@@ -12,7 +12,7 @@ import org.ex.infinite.map.exit.Exit;
 import org.ex.infinite.map.location.Location;
 import org.ex.infinite.map.location.PositionalLocation;
 
-public class InfiniteDungeon {
+public class InfiniMap {
 
 	public static void main(String[] args) {
 		
