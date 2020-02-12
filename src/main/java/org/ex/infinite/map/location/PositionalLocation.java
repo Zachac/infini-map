@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.ex.infinite.features.BiomeFeatures;
+import org.ex.infinite.features.generators.BiomeFeatureGenerator;
 import org.ex.infinite.map.Direction;
 import org.ex.infinite.map.Map;
 import org.ex.infinite.map.Position;
@@ -46,7 +46,7 @@ public final class PositionalLocation extends AbstractLocation {
 			}
 		}
 		
-		features.addAll(BiomeFeatures.getFeatures(getBiome(), p.x, p.y));
+		features.addAll(BiomeFeatureGenerator.getFeatures(getBiome(), p.x, p.y));
 	}
 
 	public Position getPosition() {

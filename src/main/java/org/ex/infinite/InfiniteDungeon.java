@@ -21,9 +21,9 @@ public class InfiniteDungeon {
 		
 	}
 
-	public static void sampleMap() {
-		int x = 0;
-		int y = 0;
+	 static void sampleMap() {
+		int x = -1;
+		int y = -10;
 		
 		Biome[][] map = new Biome[100][100];
 		
@@ -65,7 +65,7 @@ public class InfiniteDungeon {
 	private static void display(Location l) {
 		BreadthFirstSight sight = new BreadthFirstSight(l);
 		
-		System.out.println(Map.getMap(sight));
+		System.out.print(Map.getMap(sight));
 		System.out.println("The " + l.getBiome().name());
 		l.getFeatures().stream().filter(Smell.class::isInstance).forEach(f -> {
 			System.out.println(((Smell) f).getDescription());
@@ -73,7 +73,12 @@ public class InfiniteDungeon {
 		
 		System.out.println("View threshold: " + l.getViewThreshold());
 		System.out.println("Exits: " + l.getExits().stream().filter(e -> e.isVisible()).collect(Collectors.toList()));
+		System.out.println();
 		System.out.println("*Hidden exits: " + l.getExits().stream().filter(e -> ! e.isVisible()).collect(Collectors.toList()));
-		System.out.println("*Features: " + l.getFeatures());
+		System.out.println("*Features: " + l.getFeatures().stream().map((loc) -> loc.getName()).collect(Collectors.toList()));
+		
+		if (l instanceof PositionalLocation) {
+			System.out.println("*Position: " + ((PositionalLocation) l).getPosition());
+		}
 	}
 }

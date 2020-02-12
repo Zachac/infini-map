@@ -7,9 +7,7 @@ public enum Biome {
 	Ocean('`', 5, false), 
 	Beach('~', 2, true),
 	Mountains('/', '\\', 5, false),
-	Misc('!', 2, true),
-	
-	;
+	Misc('!', 2, true);
 
 	public final char icon;
 	public final char leftIcon;
