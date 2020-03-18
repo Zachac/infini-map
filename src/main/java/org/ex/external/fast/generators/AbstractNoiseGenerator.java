@@ -180,7 +180,7 @@ public abstract class AbstractNoiseGenerator {
 		m_gradientPerturbAmp = gradientPerturbAmp / (float) 0.45;
 	}
 
-	protected static class Float2 {
+	public static class Float2 {
 		public final float x, y;
 
 		public Float2(float x, float y) {
@@ -353,7 +353,6 @@ public abstract class AbstractNoiseGenerator {
 		return hash;
 	}
 
-	@SuppressWarnings("unused")
 	protected static int Hash4D(int seed, int x, int y, int z, int w) {
 		int hash = seed;
 		hash ^= X_PRIME * x;
@@ -367,7 +366,7 @@ public abstract class AbstractNoiseGenerator {
 		return hash;
 	}
 
-	protected static float ValCoord2D(int seed, int x, int y) {
+	public static float ValCoord2D(int seed, int x, int y) {
 		int n = seed;
 		n ^= X_PRIME * x;
 		n ^= Y_PRIME * y;
