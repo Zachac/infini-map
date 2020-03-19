@@ -25,17 +25,20 @@ function updateMap() {
 
 updateMap()
 
-document.onkeydown = function(event) {
-	
-	switch (event.code) {
+function processKeyEvent(code) {
+	switch (code) {
 	case "KeyW": x -= 1; break;
 	case "KeyA": y -= 1; break;
 	case "KeyS": x += 1; break;
 	case "KeyD": y += 1; break;
+	case "Minus":
 	case "KeyZ": zoom *= 1.1; break;
+	case "Equal":
 	case "KeyX": zoom /= 1.1; break;
 	case "KeyC": x = 0, y = 0, zoom = 1; break;
+	default: return;
 	}
-	
 	updateMap()
 }
+
+document.onkeydown = event => processKeyEvent(event.code);
