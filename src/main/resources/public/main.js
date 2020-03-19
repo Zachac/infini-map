@@ -1,8 +1,8 @@
 
-var x = 0
-var y = 0
-var radius = 10
-var zoom = 1
+var x = Number(localStorage.getItem('x')) || 0
+var y = Number(localStorage.getItem('y')) || 0
+var radius = Number(localStorage.getItem('radius')) || 10
+var zoom = Number(localStorage.getItem('zoom')) || 1
 
 function fetchMap(x, y, radius, zoom) {
 	fetch("graphql", {
@@ -25,17 +25,21 @@ function updateMap() {
 
 updateMap()
 
+function save(...args) {
+	args.forEach(variable => localStorage.setItem(variable, window[variable]))
+}
+
 function processKeyEvent(code) {
 	switch (code) {
-	case "KeyW": x -= 1; break;
-	case "KeyA": y -= 1; break;
-	case "KeyS": x += 1; break;
-	case "KeyD": y += 1; break;
+	case "KeyW": x -= 1; save("x"); break;
+	case "KeyA": y -= 1; save("y"); break;
+	case "KeyS": x += 1; save("x"); break;
+	case "KeyD": y += 1; save("y"); break;
 	case "Minus":
-	case "KeyZ": zoom *= 1.1; break;
+	case "KeyZ": zoom *= 1.1; save("zoom"); break;
 	case "Equal":
-	case "KeyX": zoom /= 1.1; break;
-	case "KeyC": x = 0, y = 0, zoom = 1; break;
+	case "KeyX": zoom /= 1.1; save("zoom"); break;
+	case "KeyC": x = 0, y = 0, zoom = 1; save("x", "y", "zoom"); break;
 	default: return;
 	}
 	updateMap()
