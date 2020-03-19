@@ -16,8 +16,7 @@ public class Map {
 
 		for (int i = -radius; i <= radius; i++) {
 			for (int j = -radius; j <= radius; j++) {
-				float value = noise.GetCellular((float) (x + i * zoom), (float) (y + j * zoom)) + 1;
-				result.append((char) (' ' + (int) (3 * value)));
+				result.append(getBiome((int) (x + i * zoom), (int) (y + j * zoom)));
 				result.append(' ');
 			}
 			result.setCharAt(result.length() - 1, '\n');
@@ -26,9 +25,13 @@ public class Map {
 		int center = ((radius * 2 + 1) * 2) * radius + radius * 2;
 		result.setCharAt(center - 1, '>');
 		result.setCharAt(center + 1, '<');
-		System.out.println(result.toString());
 		
 		return result.toString();
+	}
+	
+	public char getBiome(int x, int y) {
+		float value = noise.GetCellular(x, y) + 1;
+		return (char) (' ' + (int) (3 * value));
 	}
 	
 	public Float2 getCellCoordinates(int x, int y) {
