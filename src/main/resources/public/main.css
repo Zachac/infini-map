@@ -1,0 +1,23 @@
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+}
+
+#header, #content {
+	padding: 0.5em;
+}
+
+#actions, #details {
+	flex: 20%;
+}
+
+p, h1, h2, h3, h4, h5 {
+	margin: 0;
+}
+
+pre {
+	margin: 0;
+}
