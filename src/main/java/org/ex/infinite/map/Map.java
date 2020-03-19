@@ -22,6 +22,10 @@ public class Map {
 			}
 			result.setCharAt(result.length() - 1, '\n');
 		}
+		
+		int center = ((radius * 2 + 1) * 2) * radius + radius * 2;
+		result.setCharAt(center - 1, '>');
+		result.setCharAt(center + 1, '<');
 		System.out.println(result.toString());
 		
 		return result.toString();
