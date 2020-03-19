@@ -41,7 +41,7 @@ public class GraphQLProvider {
 
     private RuntimeWiring buildWiring() {
         return RuntimeWiring.newRuntimeWiring().type(TypeRuntimeWiring.newTypeWiring("Query")
-                        .dataFetcher("getAreaByLocationAndRadius", graphQLDataFetchers.getAreaByLocationAndRadius()))
+                        .dataFetcher("display", graphQLDataFetchers.display()))
                 .build();
     }
 }

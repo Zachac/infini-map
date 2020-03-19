@@ -11,7 +11,7 @@ public class GraphQLDataFetchers {
 
 	@Autowired private Map map;
 	
-    public DataFetcher<String> getAreaByLocationAndRadius() {
+    public DataFetcher<String> display() {
         return dataFetchingEnvironment -> {
             int x = dataFetchingEnvironment.getArgument("x");
             int y = dataFetchingEnvironment.getArgument("y");
