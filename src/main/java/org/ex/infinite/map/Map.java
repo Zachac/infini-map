@@ -11,12 +11,12 @@ public class Map {
 		noise.SetFrequency(0.25f);
 	}
 	
-	public String getArea(int x, int y, int radius) {
+	public String getArea(int x, int y, int radius, double zoom) {
 		StringBuilder result = new StringBuilder();
 
-		for (int i = x - radius; i <= x + radius; i++) {
-			for (int j = y - radius; j <= y + radius; j++) {
-				float value = noise.GetCellular(i, j) + 1;
+		for (int i = -radius; i <= radius; i++) {
+			for (int j = -radius; j <= radius; j++) {
+				float value = noise.GetCellular((float) (x + i * zoom), (float) (y + j * zoom)) + 1;
 				result.append((char) (' ' + (int) (3 * value)));
 				result.append(' ');
 			}

@@ -16,7 +16,8 @@ public class GraphQLDataFetchers {
             int x = dataFetchingEnvironment.getArgument("x");
             int y = dataFetchingEnvironment.getArgument("y");
             int radius = dataFetchingEnvironment.getArgument("radius");
-            return map.getArea(x, y, radius);
+            double zoom = dataFetchingEnvironment.getArgument("zoom");
+            return map.getArea(x, y, radius, zoom);
         };
     }
 }

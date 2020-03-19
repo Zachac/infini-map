@@ -1,8 +1,8 @@
 
-function fetchMap(x, y, radius) {
+function fetchMap(x, y, radius, zoom) {
 	fetch("graphql", {
 		method: "POST", 
-		body: `{display(x: ${x}, y: ${y}, radius: ${radius})}`})
+		body: `{display(x: ${x}, y: ${y}, radius: ${radius}, zoom: ${zoom})}`})
 	.then(data => data.json())
 	.then(response => {
 			if (response.dataPresent) {
@@ -14,4 +14,4 @@ function fetchMap(x, y, radius) {
 	)
 }
 
-fetchMap(0, 0, 10)
+fetchMap(0, 0, 10, 1)

@@ -1,3 +1,8 @@
 type Query {
-  display(x: Int, y: Int, radius: Int): String 
+  display(
+  	x: Int = 0
+  	y: Int = 0,
+  	radius: Int = 10
+  	zoom: Float = 1
+  ): String 
 }
