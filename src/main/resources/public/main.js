@@ -36,9 +36,9 @@ function processKeyEvent(code) {
 	case "KeyS": x += 1; save("x"); break;
 	case "KeyD": y += 1; save("y"); break;
 	case "Minus":
-	case "KeyZ": zoom *= 1.1; save("zoom"); break;
+	case "KeyZ": zoom = Math.min(zoom * 1.1, 10); save("zoom"); break;
 	case "Equal":
-	case "KeyX": zoom /= 1.1; save("zoom"); break;
+	case "KeyX": zoom = Math.max(zoom / 1.1, 1); save("zoom"); break;
 	case "KeyC": x = 0, y = 0, zoom = 1; save("x", "y", "zoom"); break;
 	default: return;
 	}

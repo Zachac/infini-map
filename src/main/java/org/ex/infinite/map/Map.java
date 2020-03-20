@@ -9,6 +9,10 @@ public class Map {
 	private CompositePerlinGenerator noise = new CompositePerlinGenerator(3, 0.1f);
 	
 	public String getArea(int x, int y, int radius, double zoom) {
+		if (radius > 100) {
+			throw new IllegalArgumentException("Radius cannot be greater than 100");
+		}
+		
 		StringBuilder result = new StringBuilder();
 
 		for (int i = -radius; i <= radius; i++) {
