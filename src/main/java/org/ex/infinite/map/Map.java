@@ -1,15 +1,12 @@
 package org.ex.infinite.map;
 
-import org.ex.external.fast.generators.AbstractNoiseGenerator.Float2;
-import org.ex.external.fast.generators.CellularNoiseGenerator;
+import org.ex.infinite.utility.CompositePerlinGenerator;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Map {
 
-	private CellularNoiseGenerator noise = new CellularNoiseGenerator(); {
-		noise.SetFrequency(0.25f);
-	}
+	private CompositePerlinGenerator noise = new CompositePerlinGenerator(3, 0.1f);
 	
 	public String getArea(int x, int y, int radius, double zoom) {
 		StringBuilder result = new StringBuilder();
@@ -30,11 +27,17 @@ public class Map {
 	}
 	
 	public char getBiome(int x, int y) {
-		float value = noise.GetCellular(x, y) + 1;
-		return (char) (' ' + (int) (3 * value));
-	}
-	
-	public Float2 getCellCoordinates(int x, int y) {
-		return noise.getCellCoordinates(x, y);
+		
+		var value = noise.getNoise(x, y);
+		
+		if (value < 0) {
+			return ' ';
+		} else if (value <= 0.1f) {
+			return '~';
+		} else if (value < 1f) {
+			return '#';
+		} else {
+			return '/';
+		}
 	}
 }
