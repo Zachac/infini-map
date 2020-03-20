@@ -6,10 +6,10 @@ public class CompositePerlinGenerator {
 
 	private PerlinNoiseGenerator[] generators;
 	
-	public CompositePerlinGenerator(int depth, float freq) {
+	public CompositePerlinGenerator(long seed, int depth, float freq) {
 		this.generators = new PerlinNoiseGenerator[depth];
 		
-		var seeds = new SeedGenerator(1337);
+		var seeds = new SeedGenerator(seed);
 		for (int i = 0; i < depth; i++, freq /= 2) {
 			var gen = new PerlinNoiseGenerator();
 			gen.SetSeed(seeds.next());

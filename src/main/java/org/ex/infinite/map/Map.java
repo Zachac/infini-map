@@ -1,12 +1,16 @@
 package org.ex.infinite.map;
 
-import org.ex.infinite.utility.CompositePerlinGenerator;
+import org.ex.infinite.map.biomes.BiomeGenerator;
+import org.ex.infinite.map.biomes.Plains;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Map {
-
-	private CompositePerlinGenerator noise = new CompositePerlinGenerator(3, 0.1f);
+	
+	private BiomeGenerator[] biomeRings = new BiomeGenerator[] {
+			new Plains(),
+			new Plains()
+	};
 	
 	public String getArea(int x, int y, int radius, double zoom) {
 		if (radius > 100) {
@@ -32,16 +36,23 @@ public class Map {
 	
 	public char getBiome(int x, int y) {
 		
-		var value = noise.getNoise(x, y);
 		
-		if (value < 0) {
-			return ' ';
-		} else if (value <= 0.1f) {
-			return '~';
-		} else if (value < 1f) {
-			return '#';
-		} else {
+		double distance = Math.sqrt(y * y + x * x);
+		double ringFactor = Math.sqrt(distance); // create larger and larger concentric rings
+		int ring = (int) (ringFactor / (Math.PI * 2) + 0.25); // calculate which ring we are on
+		float value = (float) Math.sin(ringFactor);
+		value = value + 0.5f; // prefer land over ocean
+		
+		if (ring >= biomeRings.length) {
+			// if there are no further rings, return mountains
 			return '/';
 		}
+		
+		if (value < 0) {
+			// replace the bottom of the sin wave with ocean
+			return ' ';
+		}
+		
+		return biomeRings[ring].getTile(value, x, y);
 	}
 }
