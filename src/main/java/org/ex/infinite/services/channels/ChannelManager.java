@@ -45,16 +45,18 @@ public class ChannelManager {
 		AtomicInteger culled = new AtomicInteger();
 		AtomicInteger deleted = new AtomicInteger();
 		
-		channels.replaceAll((channel, queue) -> {
-			culled.addAndGet(queue.cull());
-			
-			if (queue.isEmpty()) {
-				queue = null;
-				deleted.incrementAndGet();
-			}
-			
-			return queue;
-		});
+		for (var entry : channels.entrySet()) {
+			channels.merge(entry.getKey(), entry.getValue(), (channel, queue) -> {
+				culled.addAndGet(queue.cull());
+				
+				if (queue.isEmpty()) {
+					queue = null;
+					deleted.incrementAndGet();
+				}
+				
+				return queue;
+			});
+		}
 
 		long duration = System.currentTimeMillis() - startTs;
 		

@@ -55,8 +55,8 @@ public class ExpiringMessageQueue {
 	}
 	
 	public static class Message {
-		public final long effectiveTs = System.currentTimeMillis();
-		public final String message;
+		public long effectiveTs = System.currentTimeMillis();
+		public String message;
 		
 		public Message(String message) {
 			this.message = message;
