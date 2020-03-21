@@ -45,4 +45,25 @@ function processKeyEvent(code) {
 	updateMap()
 }
 
-document.onkeydown = event => processKeyEvent(event.code);
+var log_elem = null;
+
+function registerEventListeners() {
+	document.onkeydown = event => processKeyEvent(event.code);
+	
+	document.getElementById("command_input").onkeydown = function (evt) {
+		if (evt.code == "Enter") {
+			parse(evt.target.value)
+			evt.target.value =  "";
+		}
+		
+		evt.cancelBubble = true  
+	}
+	
+	log_elem = document.getElementById("log")
+}
+
+function log(value) {
+	let date = new Date();
+	log_elem.innerText += `${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")} ${value}\n`
+	log_elem.scrollTop = log_elem.scrollHeight;
+}

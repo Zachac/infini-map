@@ -20,6 +20,25 @@
 	width: fit-content;
 }
 
+#command_line {
+	font-family: monospace;
+}
+
+#command_input, #command_input:focus {
+	width: 100%;
+    height: fit-content;
+	font-family: monospace;
+	border: none;
+    outline: none;
+}
+
+#log {
+    max-height: 10em;
+    overflow-y: auto;
+    word-break: break-all;
+    font-family: monospace;
+}
+
 p, h1, h2, h3, h4, h5 {
 	margin: 0;
 }

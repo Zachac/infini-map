@@ -12,6 +12,7 @@
 		    font-family: 'Alice';
 		}
 	</style>
+	<script src="parser.js"></script>
 	<script src="main.js"></script>
 </head>
 <body>
@@ -38,11 +39,17 @@
 			<h3 class="row">Map</h3>
 			<pre class="row" id="map"></pre>
 			<h3 class="row">Log</h3>
-			<pre class="row" id="log"></pre>
+			<div class="row" id="log"></div>
+			<div class="row" id="command_line">
+			<span style="padding-right: 0.5em;">></span><input type="text" id="command_input" class="row"><br><br>
+			</div>
 		</div>
 		<div id="details" class="column">
 			<h3 class="row">Details</h3>
 		</div>
 	</div>
 </body>
+
+<script>registerEventListeners()</script>
+
 </html>
