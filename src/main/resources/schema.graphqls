@@ -1,8 +1,24 @@
 type Query {
   display(
-  	x: Int = 0
-  	y: Int = 0,
-  	radius: Int = 10
-  	zoom: Float = 1
-  ): String 
+  	x: Int! = 0
+  	y: Int! = 0,
+  	radius: Int! = 10
+  	zoom: Float! = 1
+  ): String!
+  
+  
+  getMessages(
+  	channel: String!
+  	effectiveTs: Long!
+  ): [Message]!
+  
+  sendMessage(
+  	channel: String!
+  	message: String!
+  ): Boolean
+}
+
+type Message {
+	message: String!
+	effectiveTs: Long!
 }

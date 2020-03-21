@@ -1,4 +1,4 @@
-package org.ex.infinite.map.biomes;
+package org.ex.infinite.services.map.biomes;
 
 import org.ex.infinite.utility.CompositePerlinGenerator;
 

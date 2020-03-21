@@ -1,7 +1,7 @@
-package org.ex.infinite.map;
+package org.ex.infinite.services.map;
 
-import org.ex.infinite.map.biomes.BiomeGenerator;
-import org.ex.infinite.map.biomes.Plains;
+import org.ex.infinite.services.map.biomes.BiomeGenerator;
+import org.ex.infinite.services.map.biomes.Plains;
 import org.springframework.stereotype.Component;
 
 @Component
