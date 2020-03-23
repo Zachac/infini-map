@@ -1,6 +1,7 @@
 package org.ex.infinite.config;
 
 import org.ex.infinite.services.channels.ChannelManager;
+import org.ex.infinite.services.channels.ChannelManager.MessageValue;
 import org.ex.infinite.services.map.Map;
 import org.ex.infinite.utility.ExpiringMessageQueue.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class GraphQLConfig {
         		env.getArgument("zoom"));
     }
 
-    public Iterable<Message> getMessages(DataFetchingEnvironment env) {
+    public Iterable<Message<MessageValue>> getMessages(DataFetchingEnvironment env) {
     	return () -> channels.getMessages(
     			env.getArgument("channel"),
     			env.getArgument("effectiveTs"));
@@ -37,8 +38,10 @@ public class GraphQLConfig {
     
     public Boolean sendMessage(DataFetchingEnvironment env) {
     	channels.addMessage(
-			env.getArgument("channel"),
-			env.getArgument("message"));
+    			env.getArgument("channel"),
+    			env.getArgument("userId"),
+    			env.getArgument("name"),
+    			env.getArgument("message"));
     	return null;
     }
     

@@ -14,11 +14,19 @@ type Query {
   
   sendMessage(
   	channel: String!
-  	message: String!
+	userId: String!
+	name: String!
+	message: String!
   ): Boolean
 }
 
 type Message {
-	message: String!
 	effectiveTs: Long!
+	value: MessageValue!
+}
+
+type MessageValue {
+	userId: String!
+	name: String!
+	message: String!
 }

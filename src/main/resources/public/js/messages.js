@@ -1,6 +1,36 @@
 
+
+function generateSecret() {
+	let secretBytes = window.crypto.getRandomValues(new Uint8Array(32));
+	return btoa(String.fromCharCode.apply(null, secretBytes));
+}
+
+async function calculateId(secret) {
+	let encoder = new TextEncoder();
+	let domainSecret = `${window.location.host}:${secret}`;
+
+	let effectiveSecret = await crypto.subtle.digest('SHA-256', encoder.encode(domainSecret));
+	let userId = await crypto.subtle.digest('SHA-256', encoder.encode(effectiveSecret));
+	
+	return {
+		secret: btoa(String.fromCharCode.apply(null, new Uint8Array(effectiveSecret))),
+		userId: btoa(String.fromCharCode.apply(null, new Uint8Array(userId)))
+	}
+}
+
+var secret = localStorage.getItem("secret");
+if (! secret) {
+	secret = generateSecret();
+	localStorage.setItem("secret", secret)
+}
+
+var id = null;
+
 window.addEventListener("load", (e) => {
-	setInterval(() => messages.getMessages(), 500)	
+	calculateId(secret).then(id => {
+		window.id = id;
+	}).catch(console.error)
+	setInterval(() => messages.getMessages(), 500)
 });
 	
 messages = {
@@ -10,7 +40,7 @@ messages = {
 		
 		fetch("graphql", {
 			method: "POST", 
-			body: `{getMessages(channel:"${channel}",effectiveTs:${effectiveTs}){message, effectiveTs}}`})
+			body: `{getMessages(channel:"${channel}",effectiveTs:${effectiveTs}){effectiveTs, value {userId, name, message}}}`})
 		.then(data => data.json())
 		.then(response => {
 				if (response.dataPresent) {
@@ -21,7 +51,7 @@ messages = {
 					for (let i = messages.length - 1; i >= 0; i--) {
 						let m = messages[i];
 						if (effectiveTs < m.effectiveTs) {
-							log(m.message, new Date(m.effectiveTs))
+							log(`${m.value.name}: ${m.value.message}`, new Date(m.effectiveTs))
 							effectiveTs = m.effectiveTs
 						}
 					}
@@ -39,7 +69,7 @@ messages = {
 	sendMessage: function(text, channel="general") {
 		fetch("graphql", {
 			method: "POST", 
-			body: `{sendMessage(channel: ${JSON.stringify(channel)}, message: ${JSON.stringify(text)})}`})
+			body: `{sendMessage(channel: ${JSON.stringify(channel)}, userId: ${JSON.stringify(text)}, name: "N.N",  message: ${JSON.stringify(text)})}`})
 		.then(data => data.json())
 		.then(response => {
 				if (response.errors.length) {

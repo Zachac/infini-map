@@ -3,26 +3,26 @@ package org.ex.infinite.utility;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
-public class ExpiringMessageQueue {
+public class ExpiringMessageQueue<T> {
 
 	private final long messageRetention;
-	private final ConcurrentLinkedDeque<Message> messages;
+	private final ConcurrentLinkedDeque<Message<T>> messages;
 	
 	public ExpiringMessageQueue(long messageRetention) {
 		this.messageRetention = messageRetention;
 		this.messages = new ConcurrentLinkedDeque<>(); 
 	}
 	
-	public void add(String message) {
-		messages.add(new Message(message));
+	public void add(T message) {
+		messages.add(new Message<T>(message));
 	}
 	
-	public Iterator<Message> getMessages(long effectiveTs) {
+	public Iterator<Message<T>> getMessages(long effectiveTs) {
 		var iter = messages.descendingIterator();
 		
-		return new Iterator<Message>() {
+		return new Iterator<Message<T>>() {
 
-			Message currentMessage = iter.hasNext() ? iter.next() : null;
+			Message<T> currentMessage = iter.hasNext() ? iter.next() : null;
 			
 			@Override
 			public boolean hasNext() {
@@ -30,7 +30,7 @@ public class ExpiringMessageQueue {
 			}
 
 			@Override
-			public Message next() {
+			public Message<T> next() {
 				var result = currentMessage;
 				currentMessage = iter.hasNext() ? iter.next() : null;
 				return result;
@@ -54,12 +54,12 @@ public class ExpiringMessageQueue {
 		return messages.isEmpty();
 	}
 	
-	public static class Message {
+	public static class Message<T> {
 		public long effectiveTs = System.currentTimeMillis();
-		public String message;
+		public T value;
 		
-		public Message(String message) {
-			this.message = message;
+		public Message(T value) {
+			this.value = value;
 		}
 	}
 }

@@ -20,11 +20,11 @@ public class ChannelManager {
 
 	private static final long MESSAGE_RETENTION = TimeUnit.MINUTES.toMillis(5);
 	
-	private ConcurrentHashMap<String, ExpiringMessageQueue> channels = new ConcurrentHashMap<>();
+	private ConcurrentHashMap<String, ExpiringMessageQueue<MessageValue>> channels = new ConcurrentHashMap<>();
 
 	@Autowired private Logger log;
 	
-	public Iterator<Message> getMessages(String channel, long effectiveTs) {
+	public Iterator<Message<MessageValue>> getMessages(String channel, long effectiveTs) {
 		var queue = channels.get(channel);
 		
 		if (queue == null) {
@@ -34,9 +34,10 @@ public class ChannelManager {
 		return queue.getMessages(effectiveTs);
 	}
 	
-	public void addMessage(String channel, String message) {
-		var queue = channels.computeIfAbsent(channel, (c) -> new ExpiringMessageQueue(MESSAGE_RETENTION));
-		queue.add(message);
+	public void addMessage(String channel, String userId, String name, String message) {
+		var messageValue = new MessageValue(userId, name, message);
+		var queue = channels.computeIfAbsent(channel, (c) -> new ExpiringMessageQueue<>(MESSAGE_RETENTION));
+		queue.add(messageValue);
 	}
 	
 	@Scheduled(fixedRate=10_000)
@@ -66,6 +67,31 @@ public class ChannelManager {
 		
 		if (deleted.get() != 0) {
 			log.info("Deleted {} channels in {}ms", deleted.get(), duration);
+		}
+	}
+	
+	public static class MessageValue {
+		private String userId;
+		private String name;
+		private String message;
+
+		public MessageValue(String userId, String name, String message) {
+			super();
+			this.userId = userId;
+			this.name = name;
+			this.message = message;
+		}
+
+		public String getUserId() {
+			return userId;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public String getMessage() {
+			return message;
 		}
 	}
 }
