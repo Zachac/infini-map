@@ -3,6 +3,7 @@ package org.ex.infinite.config;
 import org.ex.infinite.services.channels.ChannelManager;
 import org.ex.infinite.services.channels.ChannelManager.MessageValue;
 import org.ex.infinite.services.map.Map;
+import org.ex.infinite.utility.UserIdValidator;
 import org.ex.infinite.utility.ExpiringMessageQueue.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -37,6 +38,9 @@ public class GraphQLConfig {
     }
     
     public Boolean sendMessage(DataFetchingEnvironment env) {
+    	
+    	validateUserId(env);
+    	
     	channels.addMessage(
     			env.getArgument("channel"),
     			env.getArgument("userId"),
@@ -46,6 +50,10 @@ public class GraphQLConfig {
     }
     
     
+	private void validateUserId(DataFetchingEnvironment env) {
+    	UserIdValidator.validate(env.getArgument("secret"), env.getArgument("userId"));
+	}
+
 	@Bean
     public GraphQL graphql() {
 		var wiring = RuntimeWiring.newRuntimeWiring().type(TypeRuntimeWiring.newTypeWiring("Query")

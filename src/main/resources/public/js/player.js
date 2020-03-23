@@ -9,33 +9,35 @@ window.addEventListener("load", (e) => {
 	name_field.value = player.name
 })
 
-function setter(fieldName) {
-	let storageField = `player.${fieldName}`;
-	return function(value) {
-		localStorage.setItem(storageField, value)
-		this[fieldName] = value
-	}
-}
-
-function get(fieldName, defaultValue) {
-	return localStorage.getItem(`player.${fieldName}`) || defaultValue
-}
-
 var player = {
-	name: get("name", "NN"),
-	setName: setter("name"),
-	
-	x: Number(get("x", 0)),
-	setX: setter("x"),
-	
-	y: Number(get("y", 0)),
-	setY: setter("y"),
-	
-	zoom: Number(get("zoom", 1)),
-	setZoom: setter("zoom"),
-	
-	radius: Number(get("radius", 10)),
-	setRadius: setter("radius"),
+	name: "NN",
+	x: 0,
+	y: 0,
+	radius: 10,
+	zoom: 1,
 }
+
+// create setters
+Object.keys(player).forEach((k) => {
+	let storageField = `player.${k}`;
+	let storedValue = localStorage.getItem(storageField);
+	
+	if (storedValue) {
+		let defaultValue = player[k];
+		if (typeof defaultValue == "number") {
+			player[k] = Number(storedValue)
+		} else {
+			player[k] = storedValue
+		}
+	}
+	
+	let setter = `set${k.charAt(0).toUpperCase() + k.slice(1)}`;
+	
+	player[setter] = function(value) {
+		localStorage.setItem(storageField, value)
+		this[k] = value
+	}
+});
+
 
 

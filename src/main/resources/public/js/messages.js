@@ -10,7 +10,7 @@ async function calculateId(secret) {
 	let domainSecret = `${window.location.host}:${secret}`;
 
 	let effectiveSecret = await crypto.subtle.digest('SHA-256', encoder.encode(domainSecret));
-	let userId = await crypto.subtle.digest('SHA-256', encoder.encode(effectiveSecret));
+	let userId = await crypto.subtle.digest('SHA-256', effectiveSecret);
 	
 	return {
 		secret: btoa(String.fromCharCode.apply(null, new Uint8Array(effectiveSecret))),
@@ -69,7 +69,7 @@ messages = {
 	sendMessage: function(text, channel="general") {
 		fetch("graphql", {
 			method: "POST", 
-			body: `{sendMessage(channel: ${JSON.stringify(channel)}, userId: ${JSON.stringify(text)}, name: ${JSON.stringify(player.name)},  message: ${JSON.stringify(text)})}`})
+			body: `{sendMessage(channel: ${JSON.stringify(channel)}, secret: ${JSON.stringify(id.secret)}, userId: ${JSON.stringify(id.userId)}, name: ${JSON.stringify(player.name)},  message: ${JSON.stringify(text)})}`})
 		.then(data => data.json())
 		.then(response => {
 				if (response.errors.length) {
