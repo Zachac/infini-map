@@ -12,6 +12,7 @@
 		    font-family: 'Alice';
 		}
 	</style>
+	<script src="js/player.js"></script>
 	<script src="js/messages.js"></script>
 	<script src="js/commands.js"></script>
 	<script src="js/log.js"></script>
@@ -36,15 +37,15 @@
 					<button onclick="processKeyEvent('KeyC')" class="column">C</button>
 				</div>
 			</div>
+			<h3 class="row">Settings</h3>
+			<span style="padding-right: 0.5em;" class="row">Name:&nbsp;<input type="text" id="name_field"></span>
 		</div>
 		<div id="main" class="column">
 			<h3 class="row">Map</h3>
 			<pre class="row" id="map"></pre>
 			<h3 class="row">Log</h3>
 			<div class="row" id="log"></div>
-			<div class="row" id="command_line">
-			<span style="padding-right: 0.5em;">></span><input type="text" id="command_input" class="row"><br><br>
-			</div>
+			<span class="row" id="command_line">>&nbsp;<input type="text" id="command_input"></span>
 		</div>
 		<div id="details" class="column">
 			<h3 class="row">Details</h3>

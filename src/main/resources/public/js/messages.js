@@ -69,7 +69,7 @@ messages = {
 	sendMessage: function(text, channel="general") {
 		fetch("graphql", {
 			method: "POST", 
-			body: `{sendMessage(channel: ${JSON.stringify(channel)}, userId: ${JSON.stringify(text)}, name: "N.N",  message: ${JSON.stringify(text)})}`})
+			body: `{sendMessage(channel: ${JSON.stringify(channel)}, userId: ${JSON.stringify(text)}, name: ${JSON.stringify(player.name)},  message: ${JSON.stringify(text)})}`})
 		.then(data => data.json())
 		.then(response => {
 				if (response.errors.length) {

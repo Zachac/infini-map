@@ -20,14 +20,13 @@
 	width: fit-content;
 }
 
-#command_line {
+#command_line, #command_input {
 	font-family: monospace;
 }
 
-#command_input, #command_input:focus {
+input, input:focus {
 	width: 100%;
-    height: fit-content;
-	font-family: monospace;
+	font: inherit;
 	border: none;
     outline: none;
 }

@@ -1,12 +1,11 @@
 
 window.addEventListener("load", (e) => {
-	document.onkeydown = event => processKeyEvent(event.code);
+	document.onkeydown = event => {
+		if (event.target.type != "text") {
+			processKeyEvent(event.code);
+		}
+	}
 })
-
-var x = Number(localStorage.getItem('x')) || 0
-var y = Number(localStorage.getItem('y')) || 0
-var radius = Number(localStorage.getItem('radius')) || 10
-var zoom = Number(localStorage.getItem('zoom')) || 1
 
 function fetchMap(x, y, radius, zoom) {
 	fetch("graphql", {
@@ -24,26 +23,22 @@ function fetchMap(x, y, radius, zoom) {
 }
 
 function updateMap() {
-	fetchMap(x, y, radius, zoom)	
+	fetchMap(player.x, player.y, player.radius, player.zoom)	
 }
 
 updateMap()
 
-function save(...args) {
-	args.forEach(variable => localStorage.setItem(variable, window[variable]))
-}
-
 function processKeyEvent(code) {
 	switch (code) {
-	case "KeyW": x -= 1; save("x"); break;
-	case "KeyA": y -= 1; save("y"); break;
-	case "KeyS": x += 1; save("x"); break;
-	case "KeyD": y += 1; save("y"); break;
+	case "KeyW": player.setX(player.x - 1); break;
+	case "KeyA": player.setY(player.y - 1); break;
+	case "KeyS": player.setX(player.x + 1); break;
+	case "KeyD": player.setY(player.y + 1); break;
 	case "Minus":
-	case "KeyZ": zoom = Math.min(zoom * 1.1, 10); save("zoom"); break;
+	case "KeyZ": player.setZoom(Math.min(player.zoom * 1.1, 10)); break;
 	case "Equal":
-	case "KeyX": zoom = Math.max(zoom / 1.1, 1); save("zoom"); break;
-	case "KeyC": x = 0, y = 0, zoom = 1; save("x", "y", "zoom"); break;
+	case "KeyX": player.setZoom(Math.max(player.zoom / 1.1, 1)); break;
+	case "KeyC": player.setX(0), player.setY(0), player.setZoom(1), player.setRadius(10); break;
 	default: return;
 	}
 	updateMap()

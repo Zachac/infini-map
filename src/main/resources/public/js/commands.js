@@ -5,8 +5,6 @@ window.addEventListener("load", (e) => {
 			parse(evt.target.value)
 			evt.target.value =  "";
 		}
-		
-		evt.cancelBubble = true  
 	}
 })
 
