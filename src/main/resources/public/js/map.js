@@ -23,7 +23,8 @@ function fetchMap(x, y, radius, zoom) {
 }
 
 function updateMap() {
-	fetchMap(player.x, player.y, player.radius, player.zoom)	
+	fetchMap(player.x, player.y, player.radius, player.zoom)
+	details.fetch(player.x, player.y)
 }
 
 updateMap()

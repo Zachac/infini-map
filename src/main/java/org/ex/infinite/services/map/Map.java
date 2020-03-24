@@ -23,7 +23,7 @@ public class Map {
 
 		for (int i = -radius; i <= radius; i++) {
 			for (int j = -radius; j <= radius; j++) {
-				result.append(getBiome((int) (x + i * zoom), (int) (y + j * zoom)));
+				result.append(getTile((int) (x + i * zoom), (int) (y + j * zoom)).c);
 				result.append(' ');
 			}
 			result.setCharAt(result.length() - 1, '\n');
@@ -36,7 +36,7 @@ public class Map {
 		return result.toString();
 	}
 	
-	public char getBiome(int x, int y) {
+	public Tile getTile(int x, int y) {
 		
 		
 		double distance = Math.sqrt(y * y + x * x);
@@ -47,14 +47,14 @@ public class Map {
 		
 		if (ring >= biomeRings.length) {
 			// if there are no further rings, return mountains
-			return Tile.MOUNTAINS.c;
+			return Tile.MOUNTAINS;
 		}
 		
 		if (value < 0) {
 			// replace the bottom of the sin wave with ocean
-			return Tile.WATER.c;
+			return Tile.WATER;
 		}
 		
-		return biomeRings[ring].getTile(value, x, y).c;
+		return biomeRings[ring].getTile(value, x, y);
 	}
 }

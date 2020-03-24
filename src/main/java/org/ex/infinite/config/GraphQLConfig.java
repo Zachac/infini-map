@@ -3,8 +3,9 @@ package org.ex.infinite.config;
 import org.ex.infinite.services.channels.ChannelManager;
 import org.ex.infinite.services.channels.ChannelManager.MessageValue;
 import org.ex.infinite.services.map.Map;
-import org.ex.infinite.utility.UserIdValidator;
+import org.ex.infinite.services.map.Tile;
 import org.ex.infinite.utility.ExpiringMessageQueue.Message;
+import org.ex.infinite.utility.UserIdValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,6 +50,10 @@ public class GraphQLConfig {
     	return null;
     }
     
+    public Tile getTile(DataFetchingEnvironment env) {
+    	return map.getTile(env.getArgument("x"), env.getArgument("y"));
+    }
+    
     
 	private void validateUserId(DataFetchingEnvironment env) {
     	UserIdValidator.validate(env.getArgument("secret"), env.getArgument("userId"));
@@ -60,6 +65,7 @@ public class GraphQLConfig {
 	            .dataFetcher("display", this::display)
 	            .dataFetcher("getMessages", this::getMessages)
 	            .dataFetcher("sendMessage", this::sendMessage)
+	            .dataFetcher("getTile", this::getTile)
         ).build();
 		
 		TypeDefinitionRegistry schema = new SchemaParser().parse(

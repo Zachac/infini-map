@@ -19,6 +19,8 @@ type Query {
 	name: String!
 	message: String!
   ): Boolean
+  
+  getTile(x: Int!, y: Int!): Tile
 }
 
 type Message {
@@ -30,4 +32,10 @@ type MessageValue {
 	userId: String!
 	name: String!
 	message: String!
+}
+
+type Tile {
+	c: String!
+	name: String!
+	description: String
 }
