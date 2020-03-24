@@ -9,6 +9,8 @@ public class Map {
 	
 	private BiomeGenerator[] biomeRings = new BiomeGenerator[] {
 			new Plains(),
+			new Plains(),
+			new Plains(),
 			new Plains()
 	};
 	

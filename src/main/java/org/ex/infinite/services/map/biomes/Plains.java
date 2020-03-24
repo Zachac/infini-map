@@ -1,10 +1,12 @@
 package org.ex.infinite.services.map.biomes;
 
+import org.ex.external.fast.generators.WhiteNoiseGenerator;
 import org.ex.infinite.utility.CompositePerlinGenerator;
 
 public class Plains implements BiomeGenerator {
 
 	private CompositePerlinGenerator noise = new CompositePerlinGenerator(0, 3, 0.1f);
+	private WhiteNoiseGenerator randomNoise = new WhiteNoiseGenerator();
 	
 	@Override
 	public char getTile(float blendValue, int x, int y) {
@@ -19,8 +21,14 @@ public class Plains implements BiomeGenerator {
 		} else if (value <= 0.1f) {
 			return '~';
 		} else {
-			return '#';
+			float r = randomNoise.GetWhiteNoise(x, y);
+			if (r > 0.5) {
+				return 'Y';
+			} else if (r > 0.3) {
+				return '&';
+			} else {
+				return '"';
+			}
 		}
 	}
-
 }
