@@ -1,7 +1,9 @@
 package org.ex.infinite.services.map.biomes;
 
+import org.ex.infinite.services.map.Tile;
+
 public interface BiomeGenerator {
 
-	char getTile(float blendValue, int x, int y);
+	Tile getTile(float blendValue, int x, int y);
 	
 }

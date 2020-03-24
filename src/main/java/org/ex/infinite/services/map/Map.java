@@ -47,14 +47,14 @@ public class Map {
 		
 		if (ring >= biomeRings.length) {
 			// if there are no further rings, return mountains
-			return '/';
+			return Tile.MOUNTAINS.c;
 		}
 		
 		if (value < 0) {
 			// replace the bottom of the sin wave with ocean
-			return ' ';
+			return Tile.WATER.c;
 		}
 		
-		return biomeRings[ring].getTile(value, x, y);
+		return biomeRings[ring].getTile(value, x, y).c;
 	}
 }
