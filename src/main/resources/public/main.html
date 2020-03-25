@@ -6,12 +6,6 @@
     <title>Infini Map</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel="stylesheet" type="text/css" href="main.css">
-	<link href='https://fonts.googleapis.com/css?family=Alice' rel='stylesheet'>
-	<style>
-		body {
-		    font-family: 'Alice';
-		}
-	</style>
 	<script src="js/player.js"></script>
 	<script src="js/messages.js"></script>
 	<script src="js/commands.js"></script>
@@ -24,7 +18,7 @@
 	
 	<div id="content" class="row">
 		<div id="actions" class="column">
-			<h3 class="row">Actions</h3>
+			<h2 class="row">Actions</h2>
 			<div id="buttons">
 				<div class="row">
 					<button onclick="processKeyEvent('KeyW')" class="column">N</button>
@@ -38,18 +32,18 @@
 					<button onclick="processKeyEvent('KeyC')" class="column">C</button>
 				</div>
 			</div>
-			<h3 class="row">Settings</h3>
+			<h2 class="row">Settings</h2>
 			<span style="padding-right: 0.5em;" class="row">Name:&nbsp;<input type="text" id="name_field"></span>
 		</div>
 		<div id="main" class="column">
-			<h3 class="row">Map</h3>
+			<h2 class="row">Map</h2>
 			<pre class="row" id="map"></pre>
-			<h3 class="row">Log</h3>
+			<h2 class="row">Log</h2>
 			<div class="row" id="log"></div>
 			<span class="row" id="command_line">>&nbsp;<input type="text" id="command_input"></span>
 		</div>
 		<div id="details" class="column">
-			<h3 class="row">Details</h3>
+			<h2 class="row">Details</h2>
 			<div class = "row" id="tile_name"></div>
 			<div class = "row" id="tile_description"></div>
 		</div>
